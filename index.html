@@ -9,205 +9,262 @@
 
 <style>
 :root{
-    --pink:#ff9bb3;
-    --cream:#fff6f0;
-    --lav:#e8dfff;
+  --pink:#ff9bb3;
+  --cream:#fff4ee;
+  --lav:#e9e3ff;
 }
 
 *{box-sizing:border-box}
 
 body{
-    margin:0;
-    font-family:'Poppins',sans-serif;
-    background:linear-gradient(135deg,var(--cream),var(--lav));
-    overflow:hidden;
+  margin:0;
+  font-family:'Poppins',sans-serif;
+  background:linear-gradient(135deg,var(--cream),var(--lav));
+  overflow:hidden;
 }
 
-/* Floating Hearts */
-.hearts span{
-    position:fixed;
-    bottom:-20px;
-    font-size:24px;
-    animation:float 10s linear infinite;
-    transform-style:preserve-3d;
+/* ===== REAL 3D HEARTS ===== */
+.scene{
+  position:fixed;
+  inset:0;
+  perspective:800px;
+  pointer-events:none;
 }
 
-@keyframes float{
-    0%{transform:translateY(0) rotateY(0deg); opacity:1;}
-    100%{transform:translateY(-120vh) rotateY(360deg); opacity:0;}
+.heart3d{
+  position:absolute;
+  width:30px;
+  height:30px;
+  transform-style:preserve-3d;
+  animation:floatUp 12s linear infinite;
 }
 
-/* Proposal */
+.heart3d::before,
+.heart3d::after{
+  content:"";
+  position:absolute;
+  width:30px;
+  height:30px;
+  background:var(--pink);
+  border-radius:50%;
+}
+
+.heart3d::before{
+  left:0;
+}
+
+.heart3d::after{
+  left:15px;
+}
+
+.heart-shape{
+  position:absolute;
+  width:30px;
+  height:30px;
+  background:var(--pink);
+  transform:rotate(45deg);
+  top:15px;
+  left:7px;
+}
+
+@keyframes floatUp{
+  0%{
+    transform:translateY(110vh) rotateY(0deg) rotateX(0deg);
+    opacity:0;
+  }
+  10%{opacity:1}
+  100%{
+    transform:translateY(-130vh) rotateY(360deg) rotateX(360deg);
+    opacity:0;
+  }
+}
+
+/* ===== PROPOSAL ===== */
 .proposal{
-    height:100vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    z-index:10;
-    position:relative;
+  height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
 .card{
-    background:rgba(255,255,255,0.7);
-    backdrop-filter:blur(15px);
-    padding:50px;
-    border-radius:30px;
-    box-shadow:0 30px 80px rgba(0,0,0,0.15);
-    animation:fadeIn 2s;
+  background:rgba(255,255,255,0.75);
+  backdrop-filter:blur(16px);
+  padding:50px;
+  border-radius:32px;
+  box-shadow:0 40px 90px rgba(0,0,0,0.15);
+  text-align:center;
+  animation:fadeIn 2s ease;
 }
 
 h1{
-    font-family:'Playfair Display',serif;
-    font-size:3rem;
-    color:var(--pink);
+  font-family:'Playfair Display',serif;
+  color:var(--pink);
+  font-size:3rem;
 }
 
 .buttons{
-    margin-top:30px;
-    position:relative;
-    height:120px;
+  margin-top:30px;
+  position:relative;
+  height:120px;
 }
 
 button{
-    padding:15px 40px;
-    border:none;
-    border-radius:40px;
-    font-size:1.1rem;
-    cursor:pointer;
+  padding:15px 42px;
+  font-size:1.1rem;
+  border:none;
+  border-radius:40px;
+  cursor:pointer;
 }
 
 #yes{
-    background:var(--pink);
-    color:white;
-    box-shadow:0 10px 25px rgba(255,155,179,0.6);
+  background:var(--pink);
+  color:white;
+  box-shadow:0 12px 30px rgba(255,155,179,0.6);
 }
 
 #no{
-    background:#666;
-    color:white;
-    position:absolute;
+  background:#555;
+  color:white;
+  position:absolute;
 }
 
-/* Gallery */
+/* ===== GALLERY ===== */
 .gallery-page{
-    display:none;
-    height:100vh;
-    background:linear-gradient(135deg,#fff,var(--lav));
-    animation:fadeIn 2s;
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg,#fff,var(--lav));
+  display:none;
+  animation:cinematic 1.5s ease forwards;
 }
 
 .gallery-header{
-    text-align:center;
-    padding:20px;
+  text-align:center;
+  padding:20px;
 }
 
 .gallery{
-    column-count:4;
-    column-gap:15px;
-    padding:20px;
+  column-count:4;
+  column-gap:16px;
+  padding:20px;
 }
 
 .gallery img{
-    width:100%;
-    margin-bottom:15px;
-    border-radius:20px;
-    box-shadow:0 20px 40px rgba(0,0,0,0.15);
-    break-inside:avoid;
-    transition:transform 0.3s;
-}
-
-.gallery img:hover{
-    transform:scale(1.05);
+  width:100%;
+  margin-bottom:16px;
+  border-radius:22px;
+  break-inside:avoid;
+  box-shadow:0 25px 50px rgba(0,0,0,0.15);
+  opacity:0;
+  transform:translateY(40px);
+  animation:imgIn 0.8s ease forwards;
 }
 
 .controls{
-    text-align:center;
-    margin-bottom:10px;
+  text-align:center;
+  margin-bottom:10px;
 }
 
 @media(max-width:900px){
-    .gallery{column-count:2;}
+  .gallery{column-count:2;}
 }
 
 @keyframes fadeIn{
-    from{opacity:0;transform:translateY(30px);}
-    to{opacity:1;transform:none;}
+  from{opacity:0;transform:translateY(40px)}
+  to{opacity:1}
+}
+
+@keyframes cinematic{
+  from{opacity:0;filter:blur(15px)}
+  to{opacity:1;filter:none}
+}
+
+@keyframes imgIn{
+  to{opacity:1;transform:none}
 }
 </style>
 </head>
 
 <body>
 
-<!-- Floating hearts -->
-<div class="hearts">
-    <span style="left:10%">💖</span>
-    <span style="left:30%">💗</span>
-    <span style="left:50%">💘</span>
-    <span style="left:70%">💕</span>
-    <span style="left:90%">💞</span>
-</div>
+<!-- 3D Hearts Scene -->
+<div class="scene" id="scene"></div>
 
 <!-- Proposal -->
 <div class="proposal" id="proposal">
-    <div class="card">
-        <h1>Will you be my Valentine? 💕</h1>
-        <div class="buttons">
-            <button id="yes">Yes 💘</button>
-            <button id="no">No 💔</button>
-        </div>
+  <div class="card">
+    <h1>Will you be my Valentine? 💕</h1>
+    <div class="buttons">
+      <button id="yes">Yes 💘</button>
+      <button id="no">No 💔</button>
     </div>
+  </div>
 </div>
 
 <!-- Gallery -->
 <div class="gallery-page" id="galleryPage">
-    <div class="gallery-header">
-        <h2>Our Memories ✨</h2>
-        <div class="controls">
-            <input type="file" id="photos" multiple accept="image/*">
-            <input type="file" id="music" accept="audio/*">
-        </div>
+  <div class="gallery-header">
+    <h2>Our Memories ✨</h2>
+    <div class="controls">
+      <input type="file" id="photos" multiple accept="image/*">
+      <input type="file" id="music" accept="audio/*">
     </div>
-
-    <audio id="bgMusic" loop></audio>
-    <div class="gallery" id="gallery"></div>
+  </div>
+  <audio id="bgMusic" loop></audio>
+  <div class="gallery" id="gallery"></div>
 </div>
 
 <script>
+/* Runaway NO */
 const no=document.getElementById("no");
-const yes=document.getElementById("yes");
-
-no.addEventListener("mouseover",()=>{
-    no.style.left=Math.random()*300+"px";
-    no.style.top=Math.random()*80+"px";
-});
-
-yes.onclick=()=>{
-    document.getElementById("proposal").style.display="none";
-    document.getElementById("galleryPage").style.display="block";
+no.onmouseover=()=>{
+  no.style.left=Math.random()*300+"px";
+  no.style.top=Math.random()*80+"px";
 };
 
+/* YES transition */
+document.getElementById("yes").onclick=()=>{
+  document.getElementById("proposal").style.display="none";
+  document.getElementById("galleryPage").style.display="block";
+};
+
+/* Limit 10 photos */
 document.getElementById("photos").onchange=function(){
-    const g=document.getElementById("gallery");
-    g.innerHTML="";
-    [...this.files].forEach(f=>{
-        const img=document.createElement("img");
-        img.src=URL.createObjectURL(f);
-        g.appendChild(img);
-    });
+  const g=document.getElementById("gallery");
+  g.innerHTML="";
+  [...this.files].slice(0,10).forEach((f,i)=>{
+    const img=document.createElement("img");
+    img.style.animationDelay=`${i*0.15}s`;
+    img.src=URL.createObjectURL(f);
+    g.appendChild(img);
+  });
 };
 
+/* Music fade-in */
 document.getElementById("music").onchange=function(){
-    const m=document.getElementById("bgMusic");
-    m.src=URL.createObjectURL(this.files[0]);
-    m.volume=0;
-    m.play();
-    let v=0;
-    const fade=setInterval(()=>{
-        if(v<1){v+=0.02;m.volume=v;}
-        else clearInterval(fade);
-    },100);
+  const m=document.getElementById("bgMusic");
+  m.src=URL.createObjectURL(this.files[0]);
+  m.volume=0;
+  m.play();
+  let v=0;
+  const fade=setInterval(()=>{
+    if(v<1){v+=0.02;m.volume=v;}
+    else clearInterval(fade);
+  },100);
 };
+
+/* Generate 3D hearts */
+const scene=document.getElementById("scene");
+for(let i=0;i<20;i++){
+  const h=document.createElement("div");
+  h.className="heart3d";
+  h.style.left=Math.random()*100+"%";
+  h.style.animationDelay=Math.random()*10+"s";
+  const core=document.createElement("div");
+  core.className="heart-shape";
+  h.appendChild(core);
+  scene.appendChild(h);
+}
 </script>
 
 </body>
